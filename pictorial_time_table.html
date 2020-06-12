@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<body onload="onloadPic()"">
+<h2>Pictorial Time Table</h2>
+<p>Lets consider time table for 2 upto 10 (means 2*10). Take a circle put 10 equidistance point, then we lebel them 0,1,2,...,9 and any number greater than 10 take mod of 10. Now draw line on the basis of 2 times table. Like : </p>
+<ui>
+<li>0*2 = 0 : draw line between point 0 to 0</li>
+<li>1*2 = 2 : draw line between point 1 to 2</li>
+<li>2*2 = 4 : draw line between point 2 to 4</li>
+<li>3*2 = 6 : draw line between point 3 to 6</li>
+<li>4*2 = 8 : draw line between point 4 to 8</li>
+<li>5*2 = 10 : mod 10 of 10 = 0 : draw line between point 5 to 0</li>
+<li>6*2 = 12 : mod 12 of 10 = 2 : draw line between point 6 to 2</li>
+<li>7*2 = 14 : mod 14 of 10 = 4 : draw line between point 7 to 4</li>
+<li>8*2 = 16 : mod 16 of 10 = 6 : draw line between point 8 to 6</li>
+<li>9*2 = 18 : mod 18 of 10 = 8 : draw line between point 9 to 8</li>
+<li>10*2 = 20 : mod 20 of 10 = 0 : draw line between point 0 to 0</li>
+</ui>
+<p>Now if we increase upto by 1, we get pictorial 2 time table for 11,12,... so on. If we reach upto 100 or more. We get heart shape structure.</p>
+<p>If we increase times tables for 3,4,... so on. We get kidney shape structure for time table for 3. And get different structure for different time table. 
+<b>It is called heart of mathematics.<b/></p>
+
+<br/>
+<canvas id="myCanvas" width="500" height="500" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+<br/>
+<p>Time table for 
+<button onclick="multiplierMinus()">-</button>
+<button id="multiplier">0</button>
+<button onclick="multiplierPlus()">+</button></p>
+<p>Upto
+<button onclick="dividerMinus()">-</button>
+<button id="divider">0</button>
+<button onclick="dividerPlus()">+</button></p> 
+
+
+<script>
+function Point(x, y) {
+  this.x = x;
+  this.y = y;
+}
+
+var items = 10;
+var multiplier=2;
+function onloadPic()
+{
+  document.getElementById("multiplier").innerHTML = multiplier;
+  document.getElementById("divider").innerHTML = items;
+  loadImage();
+}
+function multiplierPlus() {
+  multiplier=multiplier+1;
+  document.getElementById("multiplier").innerHTML = multiplier;
+  loadImage();
+}
+function multiplierMinus() {
+  multiplier=multiplier-1;
+  document.getElementById("multiplier").innerHTML = multiplier;
+  loadImage();
+}
+function dividerPlus() {
+  items=items+1;
+  document.getElementById("divider").innerHTML = items;
+  loadImage();
+}
+function dividerMinus() {
+  items=items-1;
+  document.getElementById("divider").innerHTML = items;
+  loadImage();
+}
+function loadImage() {
+  var points = [];
+  var c = document.getElementById("myCanvas");
+  var ctx = c.getContext("2d");
+
+  ctx.beginPath();
+  ctx.clearRect(0, 0, c.width, c.height);
+  ctx.arc(250, 250, 200, 0, 2 * Math.PI);
+  ctx.fillRect(250,250,2,2);
+
+
+  for(var i = 0; i < items; i++){    
+    var x = 250 + 200 * Math.cos(2 * Math.PI * i / items); 
+    var y = 250 + 200 * Math.sin(2 * Math.PI * i / items);
+    ctx.fillRect(x,y,2,2);
+    points.push(new Point(x,y));
+  }
+
+  for(var i = 0; i < items; i++){
+    ctx.moveTo(points[i].x, points[i].y);
+    var tpoint = (i*multiplier)%items;
+    ctx.lineTo(points[tpoint].x, points[tpoint].y);
+  }
+
+  ctx.stroke();
+}
+
+
+
+</script> 
+
+</body>
+</html>
